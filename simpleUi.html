@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Schedule - University of Kelaniya</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 1200px;
+            width: 95%;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+        }
+
+        .header p {
+            font-style: italic;
+        }
+
+        .schedule {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            margin-top: 30px;
+        }
+
+        .row {
+            display: contents;
+        }
+
+        .schedule div {
+            border: 1px solid white;
+            padding: 20px;
+        }
+
+        .lab-number, .time-slot, .class-slot {
+            font-size: 1.5em;
+        }
+
+        .free {
+            color: green;
+        }
+
+        .occupied {
+            color: red;
+        }
+
+        #current-time {
+            margin-top: 15px;
+            font-size: 1.5em;
+        }
+
+        .schedule-header {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .schedule {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .row {
+                display: flex;
+                width: 100%;
+            }
+            .row div {
+                flex: 1;
+            }
+            .schedule-header {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Information & Communication Technology Centre</h1>
+            <p>University of Kelaniya</p>
+        </div>
+
+        <button id="day-button">MONDAY</button>
+        <div id="current-time">--:--:--</div>
+
+        <div class="schedule-header">
+            <div>Lab Number</div>
+            <div>8.00 - 9.00</div>
+            <div>9.00 - 10.00</div>
+        </div>
+
+        <div class="schedule" id="schedule-container">
+            <!-- Schedule rows will be dynamically loaded here -->
+        </div>
+    </div>
+
+    <script>
+        const scheduleData = {
+            "8-9": [
+                { "lab": "Lab 01", "status": "FREE", "next": "COSC 32133 <br> BECS 32263" },
+                { "lab": "Lab 02", "status": "FREE", "next": "COM-LIT" }
+            ],
+            "9-10": [
+                { "lab": "Lab 03", "status": "FREE", "next": "BSSS 321429" },
+                { "lab": "Lab 05", "status": "FREE", "next": "COM-LIT9" }
+            ],
+            "10-11": [
+                { "lab": "Lab 01", "status": "FREE", "next": "COSC 32133 <br> BECS 3226310" },
+                { "lab": "Lab 02", "status": "FREE", "next": "COM-LIT10" }
+            ],
+            "11-12": [
+                { "lab": "Lab 03", "status": "FREE", "next": "BSSS 3214211" }
+            ]
+        };
+
+        function updateTime() {
+            const timeElement = document.getElementById('current-time');
+            const dayButton = document.getElementById('day-button');
+            const scheduleContainer = document.getElementById('schedule-container');
+            const now = new Date();
+            
+            const hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            timeElement.textContent = `${hours}:${minutes}:${seconds}`;
+            
+            const days = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
+            dayButton.textContent = days[now.getDay()];
+
+            let currentSlot = "8-9";
+            if (hours >= 10 && hours < 11) currentSlot = "10-11";
+            else if (hours >= 11 && hours < 12) currentSlot = "11-12";
+
+            scheduleContainer.innerHTML = "";
+            scheduleData[currentSlot].forEach(item => {
+                scheduleContainer.innerHTML += `
+                    <div class="row">
+                        <div class="lab-number">${item.lab}</div>
+                        <div class="time-slot free">${item.status}</div>
+                        <div class="class-slot occupied">${item.next}</div>
+                    </div>
+                `;
+            });
+        }
+
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
+</body>
+</html>

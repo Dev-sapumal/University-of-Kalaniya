@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Schedule</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #0d0f25;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #11162e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+            width: 350px;
+            text-align: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-image: url(https://img.freepik.com/free-vector/gradient-style-network-connection-background_23-2148891675.jpg?semt=ais_hybrid);
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin-bottom: 20px;
+        }
+        .logo {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            margin-right: 15px;
+            
+        }
+        .header-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header-text h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+        .header-text span {
+            margin: 0;
+            font-style: italic;
+            font-size: 14px;
+        }
+        .button {
+            background-color: #1e2a5a;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: default;
+            margin-bottom: 0px;
+        }
+        .schedule {
+            text-align: center;
+        }
+        .row {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        .box {
+            background-color: #2a2f45d0;
+            margin: 0 5px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            width: 90px;
+            font-weight: bold;
+        }
+        .free {
+            color: rgb(255, 255, 255);
+            font-weight: bold;
+            min-width: 100px;
+        }
+        .title {
+            color: rgb(255, 255, 255);
+            background-color: #0054d142;
+        }
+        #current-time {
+            margin-top: 5px;
+            font-size: 14px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById('current-time').textContent = timeString;
+        }
+        setInterval(updateTime, 1000);
+        window.onload = updateTime;
+        
+        function scheduleRefresh() {
+            const now = new Date();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+            const msUntilNextHour = ((60 - minutes) * 60 - seconds) * 1000;
+
+            // Refresh at 7:00 PM and 8:00 PM
+            const refreshTimes = [19, 20];  // 7 PM and 8 PM in 24-hour format
+            const currentHour = now.getHours();
+
+            if (refreshTimes.includes(currentHour) && minutes === 0 && seconds === 0) {
+                location.reload();
+            }
+            setTimeout(scheduleRefresh, 1000);
+        }
+
+        window.onload = () => {
+            updateTime();
+            scheduleRefresh();
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://th.bing.com/th/id/R.716087634160afe408337dee5c01e642?rik=IPUkz4TJ6yJpDA&riu=http%3a%2f%2f3.bp.blogspot.com%2f-goxJ3Ls2seQ%2fTgc8gHx5RpI%2fAAAAAAAAAvg%2fytxaMHzkMTU%2fs1600%2fcoatofarms.gif&ehk=NbcHLo5TrcaLFLmjfapwhxQpQmeAE4PRvCDXfRMiv%2fQ%3d&risl=&pid=ImgRaw&r=0" alt="" class="logo">
+            <div class="header-text">
+                <h3>Information & Communication Technology Centre</h3>
+                <span>University of Kelaniya</span>
+            </div>
+        </div>
+        <button class="button">MONDAY</button>
+        <div id="current-time"></div>
+        <div class="schedule">
+            <div class="row">
+                <div class="box title">Lab </div>
+                <div class="box free title">08.00</div>
+                <div class="box free title">09.00</div>
+            </div>
+            <div class="row">
+                <div class="box">Lab 01</div>
+                <div class="box free">FREE test</div>
+                <div class="box free">COSC 32133<br>BECS 32263</div>
+            </div>
+            <div class="row">
+                <div class="box">Lab 02</div>
+                <div class="box free">FREE</div>
+                <div class="box free">COM-LIT</div>
+            </div>
+            <div class="row">
+                <div class="box">Lab 03</div>
+                <div class="box free">FREE</div>
+                <div class="box free">BSSS 32142</div>
+            </div>
+            <div class="row">
+                <div class="box">Lab 05</div>
+                <div class="box free">FREE</div>
+                <div class="box free">COM-LIT</div>
+            </div>
+            <div class="row">
+                <div class="box">Lab 06</div>
+                <div class="box free">FREE</div>
+                <div class="box free">COSC 32133<br>BECS 32263</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
